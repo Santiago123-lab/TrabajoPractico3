@@ -60,5 +60,20 @@ private Map<Vertice, List<Vertice>> adyacencias;
     public int cantidadVertices() {    	
         return adyacencias.size();
     }
+
+    /**
+     * Elimina todos los vértices y aristas del grafo.
+     */
+    public void limpiar() {
+        adyacencias.clear();
+    }
+
+    /**
+     * Indica si ya existe un vértice con el nombre dado.
+     */
+    public boolean contieneVertice(String nombre) {
+        return adyacencias.keySet().stream()
+                .anyMatch(v -> v.getNombre().equals(nombre));
+    }
 }
 
