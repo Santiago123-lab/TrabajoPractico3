@@ -2,6 +2,7 @@ package presentador;
 
 import algoritmos.ConjuntoDominante;
 import modelo.Grafo;
+import modelo.PersistenciaGrafo;
 import modelo.Vertice;
 import vista.IGrafoVista;
 
@@ -187,4 +188,104 @@ public class GrafoPresenter implements IGrafoPresenter {
                 .findFirst()
                 .orElse(null);
     }
+
+	@Override
+	public void onCargarJSON()
+		{
+	        vista.limpiarEstado();
+	        
+	        String ruta = vista.pedirRutaCargarJSON();
+	        
+	        if (ruta == null) 
+	        {
+	            return; // el usuario canceló
+	        }
+	        
+	        Grafo grafoCargado = PersistenciaGrafo.cargarGrafo(ruta);
+	        
+	        if (grafoCargado != null) 
+	        {
+	            reemplazarGrafoActual(grafoCargado);
+	            notificarCargaExitosa();
+	        } 
+	        else 
+	        {
+	            vista.mostrarEstado("Error al cargar el archivo JSON.", true);
+	        }
+	    }
+
+	    private void reemplazarGrafoActual(Grafo grafoCargado) 
+	    {
+	        grafo.limpiar();
+	        copiarVertices(grafoCargado);
+	        copiarAristas(grafoCargado);
+	    }
+
+	    private void copiarVertices(Grafo grafoCargado) 
+	    {
+	        for (Vertice v : grafoCargado.obtenerVertices()) 
+	        {
+	            grafo.agregarVertice(v);
+	        }
+	    }
+
+	    private void copiarAristas(Grafo grafoCargado) 
+	    {
+	        List<Vertice> verticesNuevos = grafo.obtenerVertices();
+	        
+	        for (Vertice v : verticesNuevos) 
+	        {
+	            conectarConVecinos(v, grafoCargado);
+	        }
+	    }
+
+	    private void conectarConVecinos(Vertice vertice, Grafo grafoCargado) 
+	    {
+	        for (Vertice vecino : grafoCargado.obtenerVecinos(vertice)) 
+	        {
+	            intentarAgregarArista(vertice, vecino);
+	        }
+	    }
+
+	    
+	    private void intentarAgregarArista(Vertice origen, Vertice destinoDelCargado) 
+	    {
+	        try 
+	        {
+	            Vertice destinoActual = buscarVertice(destinoDelCargado.getNombre());
+	            grafo.agregarArista(origen, destinoActual);
+	        } 
+	        catch (IllegalArgumentException ignored) 
+	        { 
+	            // aca ignoramos la excepción porque en un grafo no dirigido 
+	            // la arista A-B es la misma que B-A
+	        }
+	    }
+
+	    private void notificarCargaExitosa() 
+	    {
+	        actualizarVistaGrafo();
+	        vista.resaltarDominante(Collections.emptyList());
+	        vista.mostrarResultado("Grafo cargado desde archivo.");
+	        vista.mostrarEstado("Archivo cargado exitosamente.", false);
+	    }
+
+	@Override
+	public void onGuardarJSON()
+	{
+        vista.limpiarEstado();
+        
+        if (grafo.cantidadVertices() == 0) {
+            vista.mostrarEstado("El grafo está vacío, no hay nada que guardar.", true);
+            return;
+        }
+
+        String ruta = vista.pedirRutaGuardarJSON();
+        if (ruta == null) return; 
+        
+        PersistenciaGrafo.guardarGrafo(grafo, ruta);
+        
+        vista.mostrarEstado("Grafo guardado exitosamente.", false);
+    }
+
 }

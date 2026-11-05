@@ -11,4 +11,6 @@ public interface IGrafoPresenter {
     void onAgregarArista();
     void onEjecutarAlgoritmo();
     void onLimpiar();
+    void onCargarJSON();
+    void onGuardarJSON();
 }

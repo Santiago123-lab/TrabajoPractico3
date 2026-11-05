@@ -68,4 +68,16 @@ public interface IGrafoVista {
 
     /** Limpia el campo de ingreso de nombre de vértice. */
     void limpiarCampoVertice();
+    
+    /**
+     * Pide al usuario que seleccione un archivo JSON para cargar.
+     * @return la ruta absoluta del archivo seleccionado, o null si canceló.
+     */
+    String pedirRutaCargarJSON();
+
+    /**
+     * Pide al usuario que seleccione dónde guardar el archivo JSON.
+     * @return la ruta absoluta del archivo destino, o null si canceló.
+     */
+    String pedirRutaGuardarJSON();
 }

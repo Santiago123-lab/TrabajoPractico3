@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Vista principal de la aplicación.
@@ -30,6 +32,8 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
     private JComboBox<String> comboDestino;
 
     // ── Botones ────────────────────────────────────────────────────────────
+    private JButton btnCargarJSON;
+    private JButton btnGuardarJSON;
     private JButton btnAgregarVertice;
     private JButton btnAgregarArista;
     private JButton btnEjecutar;
@@ -82,6 +86,17 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         btnLimpiar.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 presenter.onLimpiar();
+            }
+        });
+        btnCargarJSON.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                presenter.onCargarJSON();
+            }
+        });
+
+        btnGuardarJSON.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                presenter.onGuardarJSON();
             }
         });
     }
@@ -177,7 +192,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         JPanel panelVertices = new JPanel();
         panelVertices.setBorder(new TitledBorder(
                 new EtchedBorder(), "Gestion de Vertices"));
-        panelVertices.setBounds(10, 10, 320, 165);
+        panelVertices.setBounds(10, 35, 320, 170);
         panelVertices.setLayout(null);
         getContentPane().add(panelVertices);
 
@@ -208,7 +223,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         JPanel panelAristas = new JPanel();
         panelAristas.setBorder(new TitledBorder(
                 new EtchedBorder(), "Agregar Arista"));
-        panelAristas.setBounds(10, 185, 320, 170);
+        panelAristas.setBounds(10, 215, 320, 170);
         panelAristas.setLayout(null);
         getContentPane().add(panelAristas);
 
@@ -244,11 +259,29 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         scrollAristas.setBounds(10, 88, 298, 70);
         panelAristas.add(scrollAristas);
 
+        // ── Barra de Herramientas Superior ─────────────────────────────────────
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false); 
+        toolBar.setBounds(173, 6, 155, 21); 
+        getContentPane().add(toolBar);
+
+        btnCargarJSON = new JButton("Cargar JSON");
+        btnCargarJSON.setBackground(new Color(240, 240, 240));
+        btnCargarJSON.setToolTipText("Carga un grafo desde un archivo JSON"); 
+        toolBar.add(btnCargarJSON);
+
+        toolBar.addSeparator(new Dimension(10, 0)); 
+
+        btnGuardarJSON = new JButton("Guardar JSON");
+        btnGuardarJSON.setBackground(new Color(240, 240, 240));
+        btnGuardarJSON.setToolTipText("Guarda el grafo actual en un archivo JSON"); 
+        toolBar.add(btnGuardarJSON);
+        
         // ── Panel: Algoritmo ───────────────────────────────────────────────
         JPanel panelAlgoritmo = new JPanel();
         panelAlgoritmo.setBorder(new TitledBorder(
                 new EtchedBorder(), "Algoritmo Goloso"));
-        panelAlgoritmo.setBounds(10, 365, 320, 58);
+        panelAlgoritmo.setBounds(10, 395, 320, 60);
         panelAlgoritmo.setLayout(null);
         getContentPane().add(panelAlgoritmo);
 
@@ -267,7 +300,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         JPanel panelResultado = new JPanel();
         panelResultado.setBorder(new TitledBorder(
                 new EtchedBorder(), "Resultado del Algoritmo"));
-        panelResultado.setBounds(10, 433, 320, 230);
+        panelResultado.setBounds(10, 465, 320, 196);
         panelResultado.setLayout(null);
         getContentPane().add(panelResultado);
 
@@ -314,4 +347,37 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
 
         panelVisualizacion.add(leyenda, BorderLayout.SOUTH);
     }
+
+	@Override
+	public String pedirRutaCargarJSON() 
+	{
+		JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Seleccionar archivo de Grafo JSON");
+        chooser.setFileFilter(new FileNameExtensionFilter("Archivos JSON", "json"));
+        
+        int seleccion = chooser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile().getAbsolutePath();
+        }
+        return null;
+	}
+
+	@Override
+	public String pedirRutaGuardarJSON() 
+	{
+		JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Guardar Grafo como JSON");
+        chooser.setFileFilter(new FileNameExtensionFilter("Archivos JSON", "json"));
+        
+        int seleccion = chooser.showSaveDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            String ruta = chooser.getSelectedFile().getAbsolutePath();
+            if (!ruta.toLowerCase().endsWith(".json")) {
+                ruta += ".json";
+            }
+            return ruta;
+        }
+        return null;
+	}
+	
 }
