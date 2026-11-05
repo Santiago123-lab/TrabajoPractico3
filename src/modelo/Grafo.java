@@ -50,30 +50,23 @@ private Map<Vertice, List<Vertice>> adyacencias;
             throw new IllegalArgumentException("El vertice no existe en el grafo");
         }
         
-        return new ArrayList<>(adyacencias.get(vertice)); //no rompe el encapsulamiento
+        return new ArrayList<>(adyacencias.get(vertice)); 
     }
 
     public List<Vertice> obtenerVertices() {    	
-        return new ArrayList<>(adyacencias.keySet()); //no rompe el encapsulamiento
+        return new ArrayList<>(adyacencias.keySet()); 
     }
 
     public int cantidadVertices() {    	
         return adyacencias.size();
     }
 
-    /**
-     * Elimina todos los vértices y aristas del grafo.
-     */
     public void limpiar() {
         adyacencias.clear();
     }
 
-    /**
-     * Indica si ya existe un vértice con el nombre dado.
-     */
     public boolean contieneVertice(String nombre) {
-        return adyacencias.keySet().stream()
-                .anyMatch(v -> v.getNombre().equals(nombre));
+        return adyacencias.keySet().stream().anyMatch(v -> v.getNombre().equals(nombre));
     }
 }
 

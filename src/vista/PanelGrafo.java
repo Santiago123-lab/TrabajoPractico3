@@ -5,11 +5,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Panel de visualización del grafo.
- * Estilo plano: sin degradados ni sombras.
- * No importa ninguna clase del paquete modelo.
- */
 public class PanelGrafo extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +30,7 @@ public class PanelGrafo extends JPanel {
         setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
     }
 
-    // ── API pública ────────────────────────────────────────────────────────
+    // API pública ==========================================================
 
     public void actualizarGrafo(List<String> vertices, List<String[]> aristas) {
         this.vertices  = new ArrayList<>(vertices);
@@ -50,8 +45,8 @@ public class PanelGrafo extends JPanel {
         repaint();
     }
 
-    // ── Layout circular ────────────────────────────────────────────────────
-
+    // Layout circular ==========================================================
+   
     private void calcularPosiciones() {
         posiciones.clear();
         int n = vertices.size();
@@ -72,7 +67,7 @@ public class PanelGrafo extends JPanel {
         }
     }
 
-    // ── Painting ───────────────────────────────────────────────────────────
+    //Painting ==========================================================
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -13,25 +13,18 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- * Vista principal de la aplicación.
- * Estilo plano estándar de Swing con Look & Feel del sistema.
- * Implementa IGrafoVista para el patrón MVP.
- * 
- * Layout con setBounds() absolutos (compatible con WindowsBuilder).
- */
 public class VentanaPrincipal extends JFrame implements IGrafoVista {
 
     private static final long serialVersionUID = 1L;
 
-    // ── Inputs de vértice ──────────────────────────────────────────────────
+    // Inputs de vértice 
     private JTextField txtNombreVertice;
 
-    // ── Inputs de arista ───────────────────────────────────────────────────
+    // Inputs de arista 
     private JComboBox<String> comboOrigen;
     private JComboBox<String> comboDestino;
 
-    // ── Botones ────────────────────────────────────────────────────────────
+    // Botones 
     private JButton btnCargarJSON;
     private JButton btnGuardarJSON;
     private JButton btnAgregarVertice;
@@ -39,14 +32,14 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
     private JButton btnEjecutar;
     private JButton btnLimpiar;
 
-    // ── Tablas de estado ───────────────────────────────────────────────────
+    // Tablas de estado 
     private DefaultTableModel modeloVertices;
     private DefaultTableModel modeloAristas;
 
-    // ── Panel de visualización ─────────────────────────────────────────────
+    // Panel de visualización
     private PanelGrafo panelGrafo;
 
-    // ── Resultado y estado ─────────────────────────────────────────────────
+    // Resultado y estado
     private JTextArea areaResultado;
     private JLabel    lblEstado;
 
@@ -59,7 +52,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         initialize();
     }
 
-    // ── IGrafoVista: wiring ────────────────────────────────────────────────
+    // IGrafoVista: wiring 
 
     @Override
     public void mostrar() {
@@ -101,7 +94,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         });
     }
 
-    // ── IGrafoVista: display ───────────────────────────────────────────────
+    // IGrafoVista: display 
 
     @Override
     public void mostrarGrafo(List<String> vertices, List<String[]> aristas) {
@@ -148,7 +141,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         lblEstado.setForeground(Color.BLACK);
     }
 
-    // ── IGrafoVista: entrada de datos ──────────────────────────────────────
+    // IGrafoVista: entrada de datos 
 
     @Override
     public String pedirNombreVertice() {
@@ -179,7 +172,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         txtNombreVertice.setText("");
     }
 
-    // ── Construcción de la UI ──────────────────────────────────────────────
+    // Construcción de la UI 
 
     private void initialize() {
         setTitle("Conjunto Dominante Minimo - TP3");
@@ -188,7 +181,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        // ── Panel: Gestion de Vertices ─────────────────────────────────────
+        // Panel: Gestion de Vertices 
         JPanel panelVertices = new JPanel();
         panelVertices.setBorder(new TitledBorder(
                 new EtchedBorder(), "Gestion de Vertices"));
@@ -219,7 +212,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         scrollVertices.setBounds(10, 56, 298, 95);
         panelVertices.add(scrollVertices);
 
-        // ── Panel: Agregar Arista ──────────────────────────────────────────
+        // Panel: Agregar Arista 
         JPanel panelAristas = new JPanel();
         panelAristas.setBorder(new TitledBorder(
                 new EtchedBorder(), "Agregar Arista"));
@@ -259,7 +252,8 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         scrollAristas.setBounds(10, 88, 298, 70);
         panelAristas.add(scrollAristas);
 
-        // ── Barra de Herramientas Superior ─────────────────────────────────────
+
+        // ── Barra de Herramientas Superior 
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false); 
         toolBar.setBounds(173, 6, 155, 21); 
@@ -277,7 +271,8 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         btnGuardarJSON.setToolTipText("Guarda el grafo actual en un archivo JSON"); 
         toolBar.add(btnGuardarJSON);
         
-        // ── Panel: Algoritmo ───────────────────────────────────────────────
+        // Panel: Algoritmo 
+
         JPanel panelAlgoritmo = new JPanel();
         panelAlgoritmo.setBorder(new TitledBorder(
                 new EtchedBorder(), "Algoritmo Goloso"));
@@ -296,7 +291,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         btnLimpiar.setBounds(186, 22, 120, 24);
         panelAlgoritmo.add(btnLimpiar);
 
-        // ── Panel: Resultado ───────────────────────────────────────────────
+        // Panel: Resultado 
         JPanel panelResultado = new JPanel();
         panelResultado.setBorder(new TitledBorder(
                 new EtchedBorder(), "Resultado del Algoritmo"));
@@ -316,7 +311,7 @@ public class VentanaPrincipal extends JFrame implements IGrafoVista {
         lblEstado.setBounds(10, 190, 298, 20);
         panelResultado.add(lblEstado);
 
-        // ── Panel: Visualizacion del Grafo ─────────────────────────────────
+        // Panel: Visualizacion del Grafo 
         JPanel panelVisualizacion = new JPanel();
         panelVisualizacion.setBorder(new TitledBorder(
                 new EtchedBorder(), "Visualizacion del Grafo"));

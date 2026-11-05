@@ -7,6 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="D:/matia/Desktop/UNGS/Progra3/Semana 7/gson-2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/usuario/Desktop/gson-2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

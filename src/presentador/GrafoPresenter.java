@@ -9,26 +9,12 @@ import vista.IGrafoVista;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Presenter del patrón MVP.
- *
- * Reglas de oro que cumple esta clase:
- *   ✔ Conoce al Modelo  (Grafo, Vertice, ConjuntoDominante)
- *   ✔ Conoce a la Vista SOLO a través de IGrafoVista
- *   ✗ NO importa ninguna clase de javax.swing ni java.awt
- *   ✗ NO conoce VentanaPrincipal, PanelGrafo, PanelControles
- */
 public class GrafoPresenter implements IGrafoPresenter {
 
     private final Grafo             grafo;
     private final ConjuntoDominante algoritmo;
     private final IGrafoVista       vista;
 
-    /**
-     * Constructor principal. Recibe la vista y el modelo ya instanciado.
-     * Esto permite que Main cree el Grafo de forma explícita
-     * (compatible con el formato Windows Builder).
-     */
     public GrafoPresenter(IGrafoVista vista, Grafo grafo) {
         this.grafo     = grafo;
         this.algoritmo = new ConjuntoDominante();
@@ -42,7 +28,7 @@ public class GrafoPresenter implements IGrafoPresenter {
         actualizarVistaGrafo();
     }
 
-    // ── Implementación de IGrafoPresenter ─────────────────────────────────
+    // Implementación de IGrafoPresenter ==============
 
     @Override
     public void onAgregarVertice() {
@@ -146,12 +132,8 @@ public class GrafoPresenter implements IGrafoPresenter {
         vista.mostrarEstado("Grafo limpiado.", false);
     }
 
-    // ── Métodos privados ───────────────────────────────────────────────────
+    // Métodos privados ===========================================
 
-    /**
-     * Convierte el estado actual del grafo a datos primitivos
-     * y los envía a la vista.
-     */
     private void actualizarVistaGrafo() {
         List<String> vertices = grafo.obtenerVertices().stream()
                 .map(Vertice::getNombre)
@@ -160,10 +142,6 @@ public class GrafoPresenter implements IGrafoPresenter {
         vista.mostrarGrafo(vertices, obtenerAristas());
     }
 
-    /**
-     * Construye la lista de aristas como pares de nombres,
-     * sin duplicar (grafo no dirigido).
-     */
     private List<String[]> obtenerAristas() {
         Set<String>    vistas  = new HashSet<>();
         List<String[]> aristas = new ArrayList<>();

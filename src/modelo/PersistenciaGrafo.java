@@ -13,10 +13,6 @@ import java.util.Set;
 
 public class PersistenciaGrafo {
 
-	/**
-     * Clase interna DTO (Data Transfer Object) para mapear el JSON.
-     * Al ser pública y con atributos simples, Gson la parsea automáticamente.
-     */
     public static class GrafoDTO {
         public List<String> vertices = new ArrayList<>();
         public List<String[]> aristas = new ArrayList<>();
